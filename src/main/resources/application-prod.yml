@@ -1,0 +1,4 @@
+#production environment configuration
+
+server:
+  port: 8084

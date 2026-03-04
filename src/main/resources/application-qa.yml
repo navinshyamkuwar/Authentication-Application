@@ -1,0 +1,4 @@
+#Quality environment configurations
+
+server:
+  port: 8085
