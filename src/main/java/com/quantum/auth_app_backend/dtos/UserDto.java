@@ -36,5 +36,5 @@ public class UserDto {
 	private Instant createdAt = Instant.now();
 	private Instant updatedAt = Instant.now();
 	private Provider provider = Provider.LOCAL;	
-	private Set<Role> roles = new HashSet<>();
+	private Set<RoleDto> roles = new HashSet<>();
 }

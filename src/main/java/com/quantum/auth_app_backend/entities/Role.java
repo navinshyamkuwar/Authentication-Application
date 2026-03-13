@@ -22,7 +22,7 @@ import lombok.Setter;
 public class Role {
 	
 	@Id
-	private UUID id;
+	private UUID id = UUID.randomUUID();
 	@Column(name = "role_name", unique = true, length = 50)
 	private String name;
 }
