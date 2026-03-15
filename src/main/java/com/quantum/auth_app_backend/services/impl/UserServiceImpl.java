@@ -1,4 +1,4 @@
-package com.quantum.auth_app_backend.services;
+package com.quantum.auth_app_backend.services.impl;
 
 import java.time.Instant;
 import java.util.UUID;
@@ -12,6 +12,7 @@ import com.quantum.auth_app_backend.entities.User;
 import com.quantum.auth_app_backend.exceptions.ResourceNotFoundException;
 import com.quantum.auth_app_backend.helpers.UserHelper;
 import com.quantum.auth_app_backend.repositories.UserRepository;
+import com.quantum.auth_app_backend.services.UserService;
 
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;

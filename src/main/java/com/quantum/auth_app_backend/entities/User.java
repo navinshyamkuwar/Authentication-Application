@@ -1,9 +1,15 @@
 package com.quantum.auth_app_backend.entities;
 
 import java.time.Instant;
+import java.util.Collection;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 import java.util.UUID;
+
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -32,7 +38,7 @@ import lombok.Setter;
 @Builder
 @Entity
 @Table(name = "users")
-public class User {
+public class User implements UserDetails {
 	@Id
 	@GeneratedValue(strategy = GenerationType.UUID)
 	@Column(name = "user_id")
@@ -71,5 +77,37 @@ public class User {
 	@PreUpdate
 	protected void onUpdate() {
 		updatedAt = Instant.now();
+	}
+
+	@Override
+	public Collection<? extends GrantedAuthority> getAuthorities() {
+		return roles.stream()
+			.map(role -> new SimpleGrantedAuthority(role.getName()))
+			.toList();
+	}
+	
+	@Override
+	public String getUsername() {
+		return this.email; // Use email as the username for authentication
+	}
+	
+	@Override
+	public boolean isAccountNonExpired() {
+		return true; // Implement logic if you want to support account expiration
+	}
+	
+	@Override
+	public boolean isAccountNonLocked() {
+		return true; // Implement logic if you want to support account locking
+	}
+	
+	@Override
+	public boolean isCredentialsNonExpired() {
+		return true; // Implement logic if you want to support credential expiration
+	}
+	
+	@Override
+	public boolean isEnabled() {
+		return this.enabled; // Use the enabled field to determine if the account is active
 	}
 }
