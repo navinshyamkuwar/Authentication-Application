@@ -88,7 +88,7 @@ public class User implements UserDetails {
 	
 	@Override
 	public String getUsername() {
-		return this.email; // Use email as the username for authentication
+		return this.username;
 	}
 	
 	@Override
