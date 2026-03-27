@@ -14,6 +14,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.security.web.context.NullSecurityContextRepository;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.quantum.auth_app_backend.security.JwtAuthenticationFilter;
@@ -29,7 +30,10 @@ public class SecurityConfig {
 		
 		http.csrf(csrf -> csrf.disable())
 			.cors(Customizer.withDefaults())
-			.sessionManagement(sm -> sm.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+			.sessionManagement(sm -> sm.sessionCreationPolicy(SessionCreationPolicy.STATELESS).sessionFixation().none())			
+			.securityContext(securityContext -> securityContext.requireExplicitSave(false))
+			.securityContext(context -> context
+			        .securityContextRepository(new NullSecurityContextRepository()))
 			.authorizeHttpRequests(authorizeHttpRequests -> authorizeHttpRequests
 				.requestMatchers("/api/v1/auth/register").permitAll()
 				.requestMatchers("/api/v1/auth/login").permitAll()

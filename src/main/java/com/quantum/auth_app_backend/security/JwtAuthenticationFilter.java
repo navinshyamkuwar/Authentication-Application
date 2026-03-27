@@ -65,7 +65,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 				userRepository.findById(userUuid)
 				.ifPresent(user -> {
 
-					if(!user.isEnabled()) {
+					if(user.isEnabled()) {
 						List<GrantedAuthority> authorities = user.getRoles() == null ? List.of(): user.getRoles().stream()
 								.map(role -> new SimpleGrantedAuthority(role.getName()))
 								.collect(Collectors.toList());
@@ -82,13 +82,9 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 				});
 
 			} catch (ExpiredJwtException e) {
-				e.printStackTrace();
-			} catch (MalformedJwtException e) {
-				e.printStackTrace();
-			} catch (JwtException e) {
-				e.printStackTrace();
+				request.setAttribute("error", "Token Expired");
 			} catch (Exception e) {
-				e.printStackTrace();
+				request.setAttribute("error", "Invalid Token");
 			}
 		}
 		filterChain.doFilter(request, response);
@@ -96,7 +92,6 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 		
 	@Override
 	protected boolean shouldNotFilter(HttpServletRequest request) throws ServletException {
-		String path = request.getRequestURI();
-		return path.startsWith("/api/v1/auth/login") || path.startsWith("/api/v1/auth/");
+		 return request.getRequestURI().startsWith("/api/vi/auth");
 	}
 }
