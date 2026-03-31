@@ -59,6 +59,8 @@ public class User implements UserDetails {
 	@Enumerated(EnumType.STRING)
 	private Provider provider = Provider.LOCAL;
 	
+	private String providerId; // Store the unique ID from the OAuth2 provider (e.g., Google sub)
+	
 	@ManyToMany(fetch = FetchType.EAGER)
 	@JoinTable(name = "user_roles",
 		joinColumns = @JoinColumn(name = "user_id"),
